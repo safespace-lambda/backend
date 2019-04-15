@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const userRouter = require('../Users/userRouter');
 const authRouter = require('../Auth/authRouter');
 
 const restricted = require('../middleware/restricted');
@@ -13,7 +12,6 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-server.use('/api/users', restricted, userRouter);
 server.use('/api/auth', authRouter);
 
 //sanity check
