@@ -1,4 +1,11 @@
 // Update with your config settings.
+const localPg = {
+  host: 'localhost',
+  database: 'safeSpace',
+  user: 'student',
+  password: 'hired'
+};
+const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
   development: {
@@ -36,6 +43,16 @@ module.exports = {
     },
     seeds: {
       directory: './data/seeds'
+    },
+    production: {
+      client: 'pg',
+      connection: productionDbConnection,
+      migrations: {
+        directory: './data/migrations'
+      },
+      seeds: {
+        directory: './data/seeds'
+      }
     }
   }
 };
