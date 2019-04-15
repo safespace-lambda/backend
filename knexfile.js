@@ -1,11 +1,11 @@
 // Update with your config settings.
-// const localPg = {
-//   host: 'localhost',
-//   database: 'safeSpace',
-//   user: 'student',
-//   password: 'hired'
-// };
-// const productionDbConnection = process.env.DATABASE_URL || localPg;
+const localPg = {
+  host: 'localhost',
+  database: 'safeSpace',
+  user: 'student',
+  password: 'hired'
+};
+const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
   development: {
@@ -46,16 +46,8 @@ module.exports = {
     }
   },
   production: {
-    client: 'sqlite3',
-    connection: {
-      filename: './data/safeSpaceProd.sqlite3'
-    },
-    useNullAsDefault: true,
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGMA foreign_keys = ON', done);
-      }
-    },
+    client: 'pg',
+    connection: productionDbConnection,
     migrations: {
       directory: './data/migrations'
     },
