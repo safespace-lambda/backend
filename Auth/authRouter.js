@@ -39,15 +39,12 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ message: 'Submit both username and password when logging in!' });
+  }
   try {
-    if (!username || !password) {
-      return res
-        .status(400)
-        .json({
-          message: 'Submit both username and password when logging in!'
-        });
-    }
     const user = await db('users')
       .where({ username })
       .first();
