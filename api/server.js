@@ -3,8 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const userRouter = require('./userRouter');
-const authRouter = require('./authRouter');
+const userRouter = require('../Users/userRouter');
+const authRouter = require('../Auth/authRouter');
 
 const restricted = require('../middleware/restricted');
 const server = express();
@@ -18,7 +18,7 @@ server.use('/api/auth', authRouter);
 
 //sanity check
 server.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hey dont worrie you are in a safe space' });
+  res.status(200).json({ message: 'Hey dont worry you are in a safe space' });
 });
 
 module.exports = server;

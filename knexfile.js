@@ -4,7 +4,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './safeSpace.sqlite3'
+      filename: './data/safeSpace.sqlite3'
     },
     useNullAsDefault: true,
     pool: {
@@ -23,7 +23,7 @@ module.exports = {
   testing: {
     client: 'sqlite3',
     connection: {
-      filename: './safeSpaceTest.sqlite3'
+      filename: './data/safeSpaceTest.sqlite3'
     },
     useNullAsDefault: true,
     pool: {

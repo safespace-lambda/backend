@@ -1,3 +1,4 @@
+
 const bcrypt = require('bcryptjs');
 const faker = require('faker');
 
@@ -21,5 +22,6 @@ exports.seed = function(knex, Promise) {
     .then(function() {
       // Inserts seed entries
       return knex('users').insert(userSeeds(50));
+
     });
 };

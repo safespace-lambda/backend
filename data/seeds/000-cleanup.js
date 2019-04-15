@@ -1,4 +1,5 @@
 
+
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('table_name').del()
@@ -10,4 +11,5 @@ exports.seed = function(knex, Promise) {
         {id: 3, colName: 'rowValue3'}
       ]);
     });
+
 };
