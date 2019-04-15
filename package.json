@@ -1,3 +1,4 @@
+
 {
   "name": "backend",
   "version": "1.0.0",
@@ -11,17 +12,17 @@
     "testEnvironment": "node"
   },
   "repository": "https://github.com/safespace-bw/backend.git",
-  "author": "Gill Abada, Jonas Walden",
+  "author": "Gill Abada",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
     "helmet": "^3.16.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.16.3",
-    "knex-cleaner": "^1.1.4",
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
@@ -31,3 +32,4 @@
     "supertest": "^4.0.2"
   }
 }
+

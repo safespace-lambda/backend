@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique();
     tbl.string('password').notNullable();
-    tbl.timestamp('timestamp').defaultTo(knex.fn.now());
+    tbl.timestamp('created').defaultTo(knex.fn.now());
   });
 };
 
