@@ -11,7 +11,7 @@
     "testEnvironment": "node"
   },
   "repository": "https://github.com/safespace-bw/backend.git",
-  "author": "Gill Abada",
+  "author": "Gill Abada, Jonas Walden",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
