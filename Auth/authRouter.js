@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const db = require('../config/dbConfig');
+const db = require('../data/config/dbConfig.js');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
