@@ -40,7 +40,6 @@ describe('messageRouter', () => {
       const response = await request(server)
         .post('/')
         .send(completeMessage);
-
       expect(response.body.scheduled).toBe('04/25/2019 10:00:00');
     });
     it('should return 201 status in successful create', async () => {
