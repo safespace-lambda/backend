@@ -36,33 +36,45 @@ const incompleteUpdatedMessage = {
 
 describe('Messages Model', () => {
   describe('create', () => {
+    beforeEach(async () => {
+      await db('messages').truncate();
+    });
     it('should send back created message', async () => {
-      await Messages.insert(completeMessage);
+      await Messages.add(completeMessage);
       const message = await db('messages');
       expect(message).toHaveLength(1);
-      expect(message).toBe(completeMessage);
-      expect(message.body).toBe(completeMessage.body);
       expect(message.scheduled).not.toBeNull();
     });
-    it('required info should be required', async () => {
-      await Messages.insert(incompleteMesage);
+    it('return null array if required info missing', async () => {
+      async function insertMessage() {
+        await Messages.add(incompleteMesage);
+      }
       const message = await db('messages');
-      expect(message).toBeNull();
+      expect(Array.isArray(message)).toBe(true);
+      expect(message).toHaveLength(0);
+      expect(message).not.toBeNull();
     });
   });
   describe('update', () => {
+    beforeEach(async () => {
+      await db('messages').insert(completeMessage);
+    });
     it('should update the message information provided', async () => {
-      await Messages.update(updatedMessage);
-      const message = await db('messages');
-      expect(message).toBe(updatedmessage);
+      await Messages.update(1, updatedMessage);
+      const [message] = await db('messages');
+      expect(message.id).not.toBeNull();
       expect(message.body).toBe(updatedMessage.body);
+      expect(message.sent).toBe(updatedMessage.sent);
+      expect(message).not.toBeNull();
     });
     it('only update updated info', async () => {
-      await Messages.update(incompleteUpdatedMessage);
-      const message = await db('messages');
+      await Messages.update(1, incompleteUpdatedMessage);
+      const [message] = await db('messages');
       expect(message).not.toBeNull();
       expect(message.body).toBe(incompleteUpdatedMessage.body);
       expect(message.user_id).toBe(incompleteUpdatedMessage.user_id);
+      expect(message.scheduled).toBe(updatedMessage.scheduled);
+      expect(message.sent).toBe(updatedMessage.sent);
     });
   });
 });
