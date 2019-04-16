@@ -5,7 +5,9 @@ module.exports = {
   find,
   findBy,
   findById,
-  update
+  update,
+  getAll,
+  remove
 };
 
 function find() {
@@ -23,16 +25,24 @@ async function add(message) {
 
 function findById(id) {
   return db('messages')
-    .select('id', 'user_id')
+    .select('id', 'user_id', 'body', 'sent', 'scheduled')
     .where({ id })
     .first();
 }
 
+function getAll() {
+  return db('messages');
+}
+
 async function update(id, changes) {
-  console.log('ID', id);
-  console.log('CHANGE', changes);
   return db('messages')
     .select('id', 'message_id')
     .where({ id })
     .update(changes);
+}
+
+function remove(id) {
+  return db('messages')
+    .where({ id })
+    .del();
 }
