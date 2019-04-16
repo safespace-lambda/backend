@@ -2,13 +2,18 @@ const express = require('express');
 
 const router = express();
 const Messages = require('./messagesModel');
+const restricted = require('../middleware/restricted.js');
 
 router.use(express.json());
 
-router.get('/', async (req, res) => {
+router.get('/', restricted, async (req, res) => {
   try {
-    const messages = await Messages.getAll();
-    res.status(200).json(messages);
+    const message = await Messages.findByUserId(req.headers.id);
+    if (message === undefined) {
+      res.status(404).end();
+    } else {
+      res.status(200).json(message);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
