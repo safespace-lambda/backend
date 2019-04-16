@@ -18,8 +18,8 @@ function findBy(filter) {
   return db('profile').where(filter);
 }
 
-async function add(message) {
-  const [id] = await db('profile').insert(message);
+async function add(profile) {
+  const [id] = await db('profile').insert(profile);
   return findById(id);
 }
 
