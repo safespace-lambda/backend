@@ -105,33 +105,15 @@ describe('profileRouter', () => {
       });
       it('should return message with ID 1', async () => {
         const response = await request(server).get('/1');
-        expect(response.body).toHaveProperty('sent');
+        expect(response.body).toHaveProperty('name');
         expect(response.status).toBe(200);
       });
       it('should return 404 if message with ID not found', async () => {
         const response = await request(server).get('/100');
-        expect(response.body).not.toHaveProperty('body');
-        expect(response.body).not.toHaveProperty('sent');
+        expect(response.body).not.toHaveProperty('timezone');
+        expect(response.body).not.toHaveProperty('name');
         expect(response.status).toBe(404);
       });
-    });
-  });
-  describe('DELETE /', () => {
-    beforeEach(async () => {
-      await db('profile').truncate();
-      await db('profile').insert(completeProfile);
-    });
-    it('endpoint should exist', async () => {
-      const response = await request(server).delete('/1');
-      expect(response.status).not.toBe(404);
-    });
-    it('should return 204', async () => {
-      const response = await request(server).delete('/1');
-      expect(response.status).toBe(204);
-    });
-    it('should return 404 if message with ID not found', async () => {
-      const response = await request(server).delete('/100');
-      expect(response.status).toBe(404);
     });
   });
 });
