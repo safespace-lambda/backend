@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
       .inTable('users')
       .onDelete('CASCADE')
       .onUpdate('CASCADE');
+    tbl.string('name', 120).notNullable();
     tbl
       .integer('phone', 100)
       .unique()

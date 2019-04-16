@@ -8,6 +8,7 @@ exports.seed = function(knex, Promise) {
       return knex('profile').insert([
         {
           user_id: 4,
+          name: faker.name.findName(),
           phone: faker.phone.phoneNumber(),
           email: faker.internet.email(),
           timezone: 'Eastern',
@@ -17,6 +18,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           user_id: 5,
+          name: faker.name.findName(),
           phone: faker.phone.phoneNumber(),
           email: faker.internet.email(),
           timezone: 'Central',
@@ -26,6 +28,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           user_id: 6,
+          name: faker.name.findName(),
           phone: faker.phone.phoneNumber(),
           email: faker.internet.email(),
           timezone: 'Pacific',

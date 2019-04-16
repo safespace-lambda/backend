@@ -3,7 +3,8 @@ const Profiles = require('./profilesModel.js');
 
 const completeProfile = {
   user_id: 1,
-  phone_number: '12125551212',
+  name: 'Jonill',
+  phone: '12125551212',
   email: 'test@email.com',
   timezone: 'America/New_York',
   picture: 'URL',
@@ -13,7 +14,8 @@ const completeProfile = {
 
 const incompleteProfile = {
   user_id: 1,
-  phone_number: '',
+  name: '',
+  phone: '',
   email: '',
   timezone: 'America/New_York',
   picture: 'URL',
@@ -23,7 +25,8 @@ const incompleteProfile = {
 
 const updatedProfile = {
   user_id: 1,
-  phone_number: '13105550000',
+  name: 'Gilnas',
+  phone: '13105550000',
   email: 'westcoast@email.com',
   timezone: 'America/Los_Angeles',
   picture: 'URL',
@@ -33,7 +36,8 @@ const updatedProfile = {
 
 const incompleteUpdatedProfile = {
   user_id: 1,
-  phone_number: '',
+  name: '',
+  phone: '',
   email: '',
   timezone: '',
   picture: '',
@@ -43,33 +47,52 @@ const incompleteUpdatedProfile = {
 
 describe('profiles model', () => {
   describe('create', () => {
+    beforeEach(async () => {
+      await db('profile').truncate();
+    });
     it('should insert the profile information provided', async () => {
-      await Profiles.insert(completeProfile);
-      const profile = await db('profiles');
-      expect(profile).toHaveLength(1);
-      expect(profile).toBe(completeProfile);
+      await Profiles.add(completeProfile);
+      const [profile] = await db('profile');
       expect(profile.email).toBe(completeProfile.email);
       expect(profile.timezone).not.toBeNull();
     });
-    it('required info should be required', async () => {
-      await Profiles.insert(incompleteProfile);
-      const profile = await db('profiles');
-      expect(profile).toBeNull();
+    it('return null array if required info missing', async () => {
+      async function insertProfile() {
+        await Profiles.add(incompleteProfile);
+      }
+      const profile = await db('profile');
+      expect(Array.isArray(profile)).toBe(true);
+      expect(profile).toHaveLength(0);
+      expect(profile).not.toBeNull();
     });
   });
   describe('update', () => {
-    it('should update the profile information provided', async () => {
-      await Profiles.update(updatedProfile);
-      const profile = await db('profiles');
-      expect(profile).toBe(updatedProfile);
-      expect(profile.mood).toBe(updatedProfile.mood);
+    beforeEach(async () => {
+      await db('profile').truncate();
+      await db('profile').insert(completeProfile);
+    });
+    it('should update the message information provided', async () => {
+      await Profiles.update(1, updatedProfile);
+      const [profile] = await db('profile');
+      expect(profile.id).not.toBeNull();
+      expect(profile.name).toBe(updatedProfile.name);
+      expect(profile.timezone).toBe(updatedProfile.timezone);
+      expect(profile).not.toBeNull();
     });
     it('only update updated info', async () => {
-      await Profiles.insert(incompleteUpdatedProfile);
-      const profile = await db('profiles');
+      await Profiles.update(1, incompleteUpdatedProfile);
+      const [profile] = await db('profile');
       expect(profile).not.toBeNull();
-      expect(profile.timezone).toBe(updatedProfile.timezone);
       expect(profile.mood).toBe(incompleteUpdatedProfile.mood);
+    });
+  });
+  describe('delete()', () => {
+    beforeEach(async () => {
+      await Profiles.add(completeProfile);
+    });
+    it('should delete the privided profiles', async () => {
+      const numProfiles = await Profiles.remove(1);
+      expect(numProfiles).toBe(1);
     });
   });
 });
