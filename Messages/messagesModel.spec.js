@@ -12,7 +12,7 @@ const completeMessage = {
   scheduled: '04/25/2019 10:00:00'
 };
 
-const incompleteMesage = {
+const incompleteMessage = {
   body:
     'Lorem ipsum dolor sit amet, cu meis putant \
   rationibus cum. Ei scripta deleniti senserit \
@@ -47,7 +47,7 @@ describe('Messages Model', () => {
     });
     it('return null array if required info missing', async () => {
       async function insertMessage() {
-        await Messages.add(incompleteMesage);
+        await Messages.add(incompleteMessage);
       }
       const message = await db('messages');
       expect(Array.isArray(message)).toBe(true);
@@ -75,6 +75,15 @@ describe('Messages Model', () => {
       expect(message.user_id).toBe(incompleteUpdatedMessage.user_id);
       expect(message.scheduled).toBe(updatedMessage.scheduled);
       expect(message.sent).toBe(updatedMessage.sent);
+    });
+  });
+  describe('delete()', () => {
+    beforeEach(async () => {
+      await Messages.add(completeMessage);
+    });
+    it('should delete the privided messages', async () => {
+      const numMsg = await Messages.remove(1);
+      expect(numMsg).toBe(1);
     });
   });
 });

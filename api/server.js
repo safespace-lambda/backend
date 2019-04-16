@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const authRouter = require('../Auth/authRouter');
+const messagesRouter = require('../Messages/messagesRouter');
 
 const restricted = require('../middleware/restricted');
 const server = express();
@@ -13,6 +14,7 @@ server.use(express.json());
 server.use(cors());
 
 server.use('/api/auth', authRouter);
+server.use('/api/messages', messagesRouter);
 
 //sanity check
 server.get('/', (req, res) => {
