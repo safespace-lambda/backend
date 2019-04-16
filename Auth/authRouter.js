@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
       .first();
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = generateToken(user);
-      res.status(200).json({ message: 'Logged in!', token, user });
+      res.status(200).json({ message: `Logged in!', ${token}, ${user.id}` });
     } else {
       res.status(401).json({
         message: 'Either username or password was incorrect: please try again.'
