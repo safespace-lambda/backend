@@ -59,26 +59,12 @@ describe('messageRouter', () => {
     });
   });
   describe('GET /', () => {
-    it('should respond with 200OK', async () => {
+    it('should respond with 401 if not logged in', async () => {
       const response = await request(server).get('/');
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(401);
       expect(response.status).not.toBe(500);
+      expect(response.status).not.toBe(200);
       expect(response.status).not.toBeNull();
-    });
-    describe('Check Array', () => {
-      beforeEach(async () => {
-        await db('messages').truncate();
-      });
-      it('should return an array', async () => {
-        const response = await request(server).get('/');
-        expect(Array.isArray(response.body)).toBe(true);
-      });
-      it('should return an empty array', async () => {
-        const response = await request(server).get('/');
-        expect(Array.isArray(response.body)).toBe(true);
-        expect(response.body).toHaveLength(0);
-        expect(response.body).not.toBeNull();
-      });
     });
     describe('GET BY ID', () => {
       beforeEach(async () => {

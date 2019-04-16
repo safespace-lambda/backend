@@ -5,6 +5,7 @@ module.exports = {
   find,
   findBy,
   findById,
+  findByUserId,
   update,
   getAll,
   remove
@@ -27,6 +28,13 @@ function findById(id) {
   return db('messages')
     .select('id', 'user_id', 'body', 'sent', 'scheduled')
     .where({ id })
+    .first();
+}
+
+function findByUserId(user_id) {
+  return db('messages')
+    .select('id', 'user_id', 'body', 'sent', 'scheduled')
+    .where({ user_id })
     .first();
 }
 
