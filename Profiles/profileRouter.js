@@ -7,8 +7,17 @@ router.use(express.json());
 
 router.get('/', async (req, res) => {
   try {
-    const profile = await Profile.getAll();
-    res.status(200).json(profile);
+    const message = await Messages.findByUserId(req.headers.id);
+    const currentUserId = req.decodedToken.subject;
+    if (req.headers.id != currentUserId) {
+      res.status(401).json({ error: 'Stop trying to snoop!' });
+    } else {
+      if (message === undefined) {
+        res.status(404).end();
+      } else {
+        res.status(200).json(message);
+      }
+    }
   } catch (error) {
     res.status(500).json(error);
   }
