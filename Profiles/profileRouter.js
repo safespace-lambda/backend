@@ -52,18 +52,17 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-
   const currentUserId = req.decodedToken.subject;
   if (req.headers.id != currentUserId) {
     res.status(401).json({ error: 'Stop trying to snoop!' });
   } else {
     try {
       const profile = await Profile.update(req.params.id, req.body);
-      res.status(200).json(profile);
+      const updatedProfile = await Profile.findById(req.params.id);
+      res.status(200).json(updatedProfile);
     } catch (error) {
       res.status(500).json(error);
     }
-
   }
 });
 

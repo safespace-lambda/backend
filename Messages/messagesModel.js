@@ -42,11 +42,10 @@ function getAll() {
 }
 
 async function update(id, changes) {
-  db('messages')
+  return db('messages')
     .select('id', 'message_id')
     .where({ id })
     .update(changes);
-  return findById(id);
 }
 
 function remove(id) {
