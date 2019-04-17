@@ -7,15 +7,15 @@ router.use(express.json());
 
 router.get('/', async (req, res) => {
   try {
-    const message = await Messages.findByUserId(req.headers.id);
+    const profile = await Profile.findByUserId(req.headers.id);
     const currentUserId = req.decodedToken.subject;
     if (req.headers.id != currentUserId) {
       res.status(401).json({ error: 'Stop trying to snoop!' });
     } else {
-      if (message === undefined) {
+      if (profile === undefined) {
         res.status(404).end();
       } else {
-        res.status(200).json(message);
+        res.status(200).json(profile);
       }
     }
   } catch (error) {
@@ -25,11 +25,12 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { name, phone, email } = req.body;
+  const user_id = req.decodedToken.subject;
   if (!name || !email) {
     return res.status(422).json({ error: 'Missing required data' });
   } else {
     try {
-      const message = await Profile.add(req.body);
+      const message = await Profile.add({ ...req.body, user_id });
       res.status(201).json(message);
     } catch (error) {
       res.status(500).json(error);
@@ -52,19 +53,8 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const count = await db('profile')
-      .where({ id: req.params.id })
-      .update(req.body);
-
-    if (count > 0) {
-      const profile = await db('profile')
-        .where({ id: req.params.id })
-        .first();
-
-      res.status(200).json(profile);
-    } else {
-      res.status(404).json({ message: 'Profile not found' });
-    }
+    const profile = await Profile.update(req.params.id, req.body);
+    res.status(200).json(profile);
   } catch (error) {
     res.status(500).json(error);
   }
