@@ -26,9 +26,8 @@ async function add(message) {
 
 function findById(id) {
   return db('messages')
-    .select('id')
-    .where({ id })
-    .first();
+    .select('id', 'user_id', 'body', 'sent', 'scheduled')
+    .where({ id });
 }
 
 function findByUserId(user_id) {
