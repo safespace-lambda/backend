@@ -30,7 +30,8 @@ router.post('/', async (req, res) => {
     return res.status(422).json({ error: 'Missing required data' });
   } else {
     try {
-      const message = await Messages.add({ ...req.body, user_id });
+      const info = { ...req.body, user_id };
+      const message = await Messages.add(info);
       res.status(201).json(message);
     } catch (error) {
       res.status(500).json(error);
