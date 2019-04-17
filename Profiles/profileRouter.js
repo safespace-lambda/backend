@@ -52,6 +52,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+
   const currentUserId = req.decodedToken.subject;
   if (req.headers.id != currentUserId) {
     res.status(401).json({ error: 'Stop trying to snoop!' });
@@ -62,6 +63,7 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
       res.status(500).json(error);
     }
+
   }
 });
 

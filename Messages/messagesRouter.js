@@ -30,8 +30,9 @@ router.post('/', async (req, res) => {
     return res.status(422).json({ error: 'Missing required data' });
   } else {
     try {
-      const info = { ...req.body, user_id };
-      const message = await Messages.add(info);
+
+      const message = await Messages.add({ ...req.body, user_id });
+
       res.status(201).json(message);
     } catch (error) {
       res.status(500).json(error);
@@ -49,6 +50,31 @@ router.get('/:id', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json(error);
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  const currentUserId = req.decodedToken.subject;
+  if (req.headers.id != currentUserId) {
+    res.status(401).json({ error: 'Stop trying to snoop!' });
+  } else {
+    try {
+      const count = await db('profile')
+        .where({ id: req.params.id })
+        .update(req.body);
+
+      if (count > 0) {
+        const profile = await db('profile')
+          .where({ id: req.params.id })
+          .first();
+
+        res.status(200).json(profile);
+      } else {
+        res.status(404).json({ message: 'Profile not found' });
+      }
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
 });
 
