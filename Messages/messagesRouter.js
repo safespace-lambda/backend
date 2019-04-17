@@ -2,7 +2,6 @@ const express = require('express');
 
 const router = express();
 const Messages = require('./messagesModel');
-const restricted = require('../middleware/restricted.js');
 
 router.use(express.json());
 
@@ -31,7 +30,9 @@ router.post('/', async (req, res) => {
     return res.status(422).json({ error: 'Missing required data' });
   } else {
     try {
+
       const message = await Messages.add({ ...req.body, user_id });
+
       res.status(201).json(message);
     } catch (error) {
       res.status(500).json(error);
