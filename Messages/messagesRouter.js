@@ -60,7 +60,11 @@ router.put('/:id', async (req, res) => {
     try {
       const message = await Messages.update(req.params.id, req.body);
       const updatedMessage = await Messages.findById(req.params.id);
-      res.status(200).json(updatedMessage);
+      if (!updatedMessage) {
+        res.status(404).json({ error: 'Message does not exist!' });
+      } else {
+        res.status(200).json(updatedMessage);
+      }
     } catch (error) {
       res.status(500).json(error);
     }

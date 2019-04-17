@@ -59,7 +59,11 @@ router.put('/:id', async (req, res) => {
     try {
       const profile = await Profile.update(req.params.id, req.body);
       const updatedProfile = await Profile.findById(req.params.id);
-      res.status(200).json(updatedProfile);
+      if (!updatedProfile) {
+        res.status(404).json({ error: 'Profile does not exist!' });
+      } else {
+        res.status(200).json(updatedProfile);
+      }
     } catch (error) {
       res.status(500).json(error);
     }
