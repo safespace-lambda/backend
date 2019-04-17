@@ -51,6 +51,26 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const count = await db('profile')
+      .where({ id: req.params.id })
+      .update(req.body);
+
+    if (count > 0) {
+      const profile = await db('profile')
+        .where({ id: req.params.id })
+        .first();
+
+      res.status(200).json(profile);
+    } else {
+      res.status(404).json({ message: 'Profile not found' });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     const message = await Messages.remove(req.params.id);
