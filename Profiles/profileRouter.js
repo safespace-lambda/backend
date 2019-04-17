@@ -5,7 +5,7 @@ const Profile = require('./profilesModel');
 
 router.use(express.json());
 
-router.get('/', restricted, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const message = await Messages.findByUserId(req.headers.id);
     const currentUserId = req.decodedToken.subject;
