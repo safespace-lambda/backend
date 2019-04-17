@@ -2,7 +2,6 @@ const express = require('express');
 
 const router = express();
 const Messages = require('./messagesModel');
-const restricted = require('../middleware/restricted.js');
 
 router.use(express.json());
 
@@ -25,12 +24,13 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { body, user_id } = req.body;
-  if (!user_id || !body) {
+  const { body } = req.body;
+  const user_id = req.decodedToken.subject;
+  if (!body) {
     return res.status(422).json({ error: 'Missing required data' });
   } else {
     try {
-      const message = await Messages.add(req.body);
+      const message = await Messages.add({ ...req.body, user_id });
       res.status(201).json(message);
     } catch (error) {
       res.status(500).json(error);
