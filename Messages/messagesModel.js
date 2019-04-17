@@ -34,8 +34,7 @@ function findById(id) {
 function findByUserId(user_id) {
   return db('messages')
     .select('id', 'user_id', 'body', 'sent', 'scheduled')
-    .where({ user_id })
-    .first();
+    .where({ user_id });
 }
 
 function getAll() {
