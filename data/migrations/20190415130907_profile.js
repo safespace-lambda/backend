@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
       .onUpdate('CASCADE');
     tbl.string('name', 120).notNullable();
     tbl
-      .integer('phone', 100)
+      .string('phone', 30)
       .unique()
       .notNullable();
     tbl
