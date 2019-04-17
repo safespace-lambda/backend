@@ -16,10 +16,12 @@ exports.seed = function(knex, Promise) {
     return users;
   };
 
-  return knex('users')
-    .truncate()
-    .then(function() {
-      // Inserts seed entries
-      return knex('users').insert(userSeeds(50));
-    });
+  return (
+    knex('users')
+      // .truncate()
+      .then(function() {
+        // Inserts seed entries
+        return knex('users').insert(userSeeds(50));
+      })
+  );
 };
