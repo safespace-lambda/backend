@@ -58,8 +58,8 @@ router.put('/:id', async (req, res) => {
     res.status(401).json({ error: 'Stop trying to snoop!' });
   } else {
     try {
-      const profile = await Profile.update(req.params.id, req.body);
-      res.status(200).json(profile);
+      const message = await Message.update(req.params.id, req.body);
+      res.status(200).json(message);
     } catch (error) {
       res.status(500).json(error);
     }
