@@ -1,6 +1,7 @@
 const request = require('supertest');
 const server = require('./profileRouter');
 const db = require('../data/config/dbConfig');
+const restricted = require('../middleware/restricted');
 const completeProfile = {
   user_id: 1,
   name: 'Jonill',
@@ -44,13 +45,33 @@ const incompleteUpdatedProfile = {
   mood: 'Happy',
   birthday: '02/02/2002'
 };
+
+const setup = async () => {
+  const validUser = {
+    username: 'test_user',
+    password: 'test_password'
+  };
+
+  // const { body: createdUser } = await request(server)
+  const response = await request(server)
+    .post('/api/auth/register')
+    .send(validUser);
+  console.log(response.body);
+
+  return { user: createdUser };
+};
 describe('profileRouter', () => {
   beforeEach(async () => {
     await db('profile').truncate();
   });
   describe('POST/', () => {
-    it('endpoint should exist', async () => {
-      const response = await request(server).post('/');
+    it.only('endpoint should exist', async () => {
+      const {
+        user: { token }
+      } = await setup();
+      const response = await request(server)
+        .post('/')
+        .set('authorization', token);
       expect(response.status).not.toBe(404);
     });
     it('should return created profile ', async () => {
