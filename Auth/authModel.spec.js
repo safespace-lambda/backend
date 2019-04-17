@@ -1,5 +1,5 @@
 const db = require('../data/config/dbConfig.js');
-const Auth = require('./authModels.js');
+// const Auth = require('./authModels.js');
 
 completeUser = { username: 'TestUser', password: 'badPass' };
 
