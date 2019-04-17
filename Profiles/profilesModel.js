@@ -63,11 +63,10 @@ function getAll() {
 }
 
 async function update(id, changes) {
-  db('profile')
+  return db('profile')
     .select('id', 'profile_id')
     .where({ id })
     .update(changes);
-  return findById(id);
 }
 
 function remove(id) {

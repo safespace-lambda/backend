@@ -8,6 +8,9 @@ router.use(express.json());
 router.get('/', async (req, res) => {
   try {
     const message = await Messages.findByUserId(req.headers.id);
+    if (!req.decodedToken) {
+      return res.status(403).json({ error: 'invalid token' });
+    }
     const currentUserId = req.decodedToken.subject;
     if (req.headers.id != currentUserId) {
       res.status(401).json({ error: 'Stop trying to snoop!' });
@@ -25,6 +28,9 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { body } = req.body;
+  if (!req.decodedToken) {
+    return res.status(403).json({ error: 'invalid token' });
+  }
   const user_id = req.decodedToken.subject;
   if (!body) {
     return res.status(422).json({ error: 'Missing required data' });
@@ -53,6 +59,9 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+  if (!req.decodedToken) {
+    return res.status(403).json({ error: 'invalid token' });
+  }
   const currentUserId = req.decodedToken.subject;
   if (req.headers.id != currentUserId) {
     res.status(401).json({ error: 'Stop trying to snoop!' });
