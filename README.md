@@ -30,7 +30,7 @@ This app allows users to login, write positive affirmations and schedule them to
 
 | Method | Endpoint           | Description                                                                                                                                                                             |
 | ------ | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | /api/auth/register | Creates a `user` using the information sent inside the `body` of the request. Returns `user_id` and `Json Web Token`                                                                    |
+| POST   | /api/auth/register | Creates a `user` using the information sent inside the `body` of the request. The `body` should be `username` and `password` Returns `user_id` and `Json Web Token`                                                                    |
 | POST   | /api/auth/login    | Uses the credentials sent inside the `body` as well as the `JWT` sent in the headers within the Authorization key, and the `user_id` sent within the `id` key to authenticate the user. |
 
 ### Profiles
