@@ -1,24 +1,7 @@
-require('dotenv').config();
-const cron = require('node-cron');
-const accountSid = process.env.TWILIO_SID;
-const authToken = process.env.TWILIO_AUTH;
-const client = require('twilio')(accountSid, authToken);
-const sms = require('../sms/smsHelper.js');
+const CronJob = require('../lib/cron.js').CronJob;
+const { findAndSend } = require('../sms/sms.js');
 
-const findAndSend = async () => {
-  const mapedData = await sms.find();
-
-  mapedData.map(data => {
-    client.messages
-      .create({
-        body: data.body,
-        from: '+15038556132',
-        to: process.env.TEST_CELL
-      })
-      .then(message => console.log(message.sid));
-  });
-};
-
-cron.schedule('* * * * *', function() {
-  findAndSend();
-});
+console.log('Before job instantiation');
+const job = new CronJob('2 * * * * *', findAndSend());
+console.log('After job instantiation');
+job.start();

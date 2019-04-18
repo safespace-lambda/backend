@@ -2,7 +2,6 @@ require('dotenv').config();
 const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH;
 const client = require('twilio')(accountSid, authToken);
-const sms = require('./smsHelper.js');
 
 const findAndSend = async () => {
   const mapedData = await sms.find();
