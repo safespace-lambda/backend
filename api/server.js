@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const authRouter = require('../Auth/authRouter');
 const messagesRouter = require('../Messages/messagesRouter');
 const profilesRouter = require('../Profiles/profileRouter');
+const smsRouter = require('../sms/smsRouter');
 
 const restricted = require('../middleware/restricted');
 const server = express();
@@ -17,6 +18,7 @@ server.use(cors());
 server.use('/api/auth', authRouter);
 server.use('/api/messages', restricted, messagesRouter);
 server.use('/api/profiles', restricted, profilesRouter);
+server.use('/api/sms', restricted, smsRouter);
 
 //sanity check
 server.get('/', (req, res) => {
